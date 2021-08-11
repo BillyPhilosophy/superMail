@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-  <p>123123</p>
+		<main-tab-bar/>
   </div>
 </template>
 
 <script>
-
+import MainTabBar from 'components/content/MainTabBar'
 export default {
   name: 'App',
   components: {
+		MainTabBar
   },
   created() {
-    console.log('123123213');
+    // console.log('123123213');
   }
 }
 </script>
