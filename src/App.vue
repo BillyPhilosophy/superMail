@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-		123
+  <p>123123</p>
   </div>
 </template>
 
@@ -10,17 +9,15 @@
 export default {
   name: 'App',
   components: {
+  },
+  created() {
+    console.log('123123213');
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="less" scoped>
+  p{
+    color: aqua;
+  }
 </style>
