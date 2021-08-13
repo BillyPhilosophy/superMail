@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MainTabBar from 'components/content/MainTabBar'
+import MainTabBar from 'components/content/maintabbar/MainTabBar'
 export default {
   name: 'App',
   components: {
@@ -18,8 +18,6 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-  p{
-    color: aqua;
-  }
+<style scoped>
+ 
 </style>
