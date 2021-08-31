@@ -30,6 +30,7 @@ export default {
 </script>
 <style  scoped>
 	.tab-control{
+		width: 100%;
 		display: flex;
 		height: 40px;
 		line-height: 40px;
