@@ -5,6 +5,14 @@
 				购物街
 			</template>
 		</nav-bar>
+		<tab-control 
+			:title="['流行','新款','精选']" 
+			@tabControlClick="tabControlClick"
+			ref="tabControl1"
+			class="tab-controls"
+			v-show="tabFixed"
+			:class="{fixed:tabFixed}"
+			/>
 		<scroll class="bs-content" 
 		ref="scroll" 
 		:probeType="3" 
@@ -12,10 +20,14 @@
 		@scroller="scrollPosition"
 		@pullingUp="loadMore"
 		>
-			<home-swiper :bannerList="bannerList" />
+			<home-swiper :bannerList="bannerList" @swiperImgLoad="swiperImgLoad"/>
 			<home-recommend :recommendList="recommentList"/>
 			<feature-view/>
-			<tab-control :title="['流行','新款','精选']" class="tab-control" @tabControlClick="tabControlClick"/>
+			<tab-control 
+			:title="['流行','新款','精选']" 
+			@tabControlClick="tabControlClick"
+			ref="tabControl2"
+			/>
 			<goods-list :goods-list="goods[currentType].list"/>
 		</scroll>
 		<back-top class="back-top" @click.native="backTopClick" v-show="isShowBackTop"/>
@@ -35,6 +47,8 @@ import BackTop from 'components/content/backTop/BackTop'
 import HomeSwiper from './homeChild/HomeSwiper'
 import HomeRecommend from './homeChild/HomeRecommend'
 import FeatureView from './homeChild/FeatureView'
+// 公共方法
+import {debounce} from 'common/utils'
 
 export default {
 	name: "Home",
@@ -48,7 +62,10 @@ export default {
 			 'sell':{page:0,list:[]}
 		 },
 		 currentType:'pop',
-		 isShowBackTop:false
+		 isShowBackTop:false,
+		 isLoadForSwiper:false,
+		 tabOffsetTop:0,
+		 tabFixed:false
 	 }
 	},
 	created() {
@@ -58,10 +75,25 @@ export default {
 		this.getGoodsData('sell')
 	},
 	updated() {
-		this.$refs.scroll.refresh();
+		// this.$refs.scroll.refresh();
+	},
+	mounted() {
+		// 页面img加载scroll组件需要refresh重载计算高度
+		const refresh = debounce(this.$refs.scroll.refresh,200)
+		this.$bus.$on('imgLoad',()=>{
+			refresh();
+		})
+		// 吸顶
+		
 	},
 	methods:{
 		// 事件处理
+		swiperImgLoad(){
+			if(!this.isLoadForSwiper){
+				this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+				this.isLoadForSwiper = true
+			}
+		},
 		tabControlClick(index){
 			switch(index){
 				case 0:
@@ -73,12 +105,17 @@ export default {
 				case 2:
 					this.currentType = 'sell';
 			}
+			this.$refs.tabControl1.currentIndex = index;
+			this.$refs.tabControl2.currentIndex = index;
 		},
 		backTopClick(){
 			this.$refs.scroll.scrollTo()
 		},
 		scrollPosition(position){
-			this.isShowBackTop = (-position.y)>1000
+			// 回顶部操作
+			this.isShowBackTop = (-position.y)>1000;
+			// tabcontrol吸顶
+			this.tabFixed = (-position.y)>this.tabOffsetTop;
 			// console.log(position);
 		},
 		loadMore(){
@@ -121,22 +158,29 @@ export default {
 </script>
 <style  scoped>
 	#home{
-		padding-top: 44px;
+		/* padding-top: 44px; */
 		height: 100vh;
     position: relative;
 	}
 	.home-nav{
-		position: fixed;
+		/* position: fixed;
 		top: 0;
 		left: 0;
-		z-index: 10;
+		z-index: 10; */
 		background-color: var(--color-tint);
     color:#fff;
 	}
-	.tab-control{
-		position: sticky;
+	.tab-controls{
+		position: relative;
+		/* top: 44px;
+		z-index: 9; */
+	}
+	.fixed{
+		position: fixed;
+		left: 0 ;
+		right: 0;
 		top: 44px;
-		z-index: 9;
+		z-index: 2;
 	}
 	.bs-content{
 		position: absolute;

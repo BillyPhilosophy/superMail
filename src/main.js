@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router/index'
 import '@/assets/style/base.css'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.prototype.$bus = new Vue();
 
 new Vue({
   router,

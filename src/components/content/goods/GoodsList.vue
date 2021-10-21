@@ -27,11 +27,11 @@
 </script>
 <style scoped>
 	.goods{
-		/* display: flex;
+		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-around; */
+		justify-content: space-around;
 		padding: 10px;
-		column-count: 2;
-    -webkit-column-count: 2;
+		/* column-count: 2;
+    -webkit-column-count: 2; */
 	}
 </style>
