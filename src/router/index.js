@@ -4,9 +4,10 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 // 防止点击同一路由时报错
 const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
+VueRouter.prototype.push = function push(location) {undefined
   return originalPush.call(this, location).catch(err => err)
 }
+
 // console.log(VueRouter);
 function load(path,component) {
   return () => import(/* webpackChunkName: "[request]" */ `../${path}/${component}`)
@@ -31,6 +32,10 @@ const routes=[
   {
     path:'/profile',
     component:load('views/profile','Profile')
+  },
+	{
+    path:'/detail/:iid',
+    component:load('views/detail','Detail')
   }
 ];
 const router = new VueRouter({

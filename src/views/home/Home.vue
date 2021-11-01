@@ -57,15 +57,17 @@ export default {
 		 bannerList:[],
 		 recommentList:[],
 		 goods:{
-			 'pop':{page:0,list:[]},
-			 'new':{page:0,list:[]},
-			 'sell':{page:0,list:[]}
+			 'pop':{page:0,list:[],position:0},
+			 'new':{page:0,list:[],position:0},
+			 'sell':{page:0,list:[],position:0}
 		 },
 		 currentType:'pop',
 		 isShowBackTop:false,
 		 isLoadForSwiper:false,
 		 tabOffsetTop:0,
-		 tabFixed:false
+		 tabFixed:false,
+		 prevPosition:0,
+		 leavePosition:0
 	 }
 	},
 	created() {
@@ -86,15 +88,25 @@ export default {
 		// 吸顶
 		
 	},
+	activated() {
+		this.$refs.scroll.scrollTo(0,this.leavePosition,0);
+		this.$refs.scroll.refresh()
+	},
+	deactivated() {
+		this.leavePosition = this.$refs.scroll.scroll.y;
+	},
 	methods:{
 		// 事件处理
 		swiperImgLoad(){
 			if(!this.isLoadForSwiper){
 				this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
-				this.isLoadForSwiper = true
+				this.isLoadForSwiper = true;
 			}
 		},
 		tabControlClick(index){
+			// 记录上一个tab的位置
+			this.prevPosition = this.goods[this.currentType].position;
+			console.log(this.prevPosition);
 			switch(index){
 				case 0:
 					this.currentType = 'pop';
@@ -107,16 +119,31 @@ export default {
 			}
 			this.$refs.tabControl1.currentIndex = index;
 			this.$refs.tabControl2.currentIndex = index;
+			// 当前一个tab位置大于浮动位置，当前tab位置小于浮动位置时
+			if((Math.abs(this.prevPosition))>=this.tabOffsetTop&&Math.abs(this.goods[this.currentType].position)<this.tabOffsetTop){
+				this.goods[this.currentType].position = -(this.tabOffsetTop+1);
+			}
+			// 当前一个tab位置小于浮动位置，当前tab位置小于浮动位置时
+			else if((Math.abs(this.prevPosition))<this.tabOffsetTop&&Math.abs(this.goods[this.currentType].position)<this.tabOffsetTop){
+				this.goods[this.currentType].position = this.prevPosition;
+			}
+			this.$refs.scroll.scrollTo(0,this.goods[this.currentType].position,0)
+			
 		},
 		backTopClick(){
-			this.$refs.scroll.scrollTo()
+			this.$refs.scroll.scrollTo();
+			// 回到顶部则tabcontrol中的position归零
+			for (const key in this.goods) {
+				this.goods[key].position = 0;
+			}
 		},
 		scrollPosition(position){
 			// 回顶部操作
 			this.isShowBackTop = (-position.y)>1000;
 			// tabcontrol吸顶
 			this.tabFixed = (-position.y)>this.tabOffsetTop;
-			// console.log(position);
+			// 记录tabcontrol每一个tab的位置
+			this.goods[this.currentType].position = position.y;
 		},
 		loadMore(){
 			console.log('pullingUp');
