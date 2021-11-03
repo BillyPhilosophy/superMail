@@ -3,7 +3,7 @@
 		<keep-alive exclude="Detail">
 			<router-view></router-view>
 		</keep-alive>
-		<main-tab-bar/>
+		<main-tab-bar v-if="!$route.meta.mainBarHidden"/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   name: 'App',
   components: {
 		MainTabBar
-  }
+  },
 }
 </script>
 

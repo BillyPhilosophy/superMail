@@ -75,10 +75,10 @@ export default {
 		this.getGoodsData('pop')
 		this.getGoodsData('new')
 		this.getGoodsData('sell')
+		console.log(this.$route);
+
 	},
-	updated() {
-		// this.$refs.scroll.refresh();
-	},
+
 	mounted() {
 		// 页面img加载scroll组件需要refresh重载计算高度
 		const refresh = debounce(this.$refs.scroll.refresh,200)

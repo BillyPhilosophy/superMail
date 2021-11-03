@@ -19,11 +19,11 @@ const routes=[
   },
   {
     path:'/home',
-    component:load('views/home','Home')
+    component:load('views/home','Home'),
   },
   {
     path:'/category',
-    component:load('views/category','Category')
+    component:load('views/category','Category'),
   },
   {
     path:'/shopcart',
@@ -35,11 +35,25 @@ const routes=[
   },
 	{
     path:'/detail/:iid',
-    component:load('views/detail','Detail')
+    component:load('views/detail','Detail'),
+		meta:{
+			mainBarHidden: true
+		}
   }
 ];
 const router = new VueRouter({
   routes,
   mode:'history'
 })
+
+// router.beforeEach((to, from, next) => {
+// 	// to.matched.some(record => {console.log(record.meta.mainBarHidden)});
+//   if (to.matched.some(record => record.meta.mainBarHidden)) {
+//     next({
+// 			query: { mainBarHidden: true }
+// 		})
+//   } else {
+//     next() // 确保一定要调用 next()
+//   }
+// })
 export default router
