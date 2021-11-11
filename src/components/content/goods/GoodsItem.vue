@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="itemClick">
-		<img :src="itemData.show.img" alt="" @load="imgLoad">
+		<img v-lazy="realImage" alt="" @load="imgLoad">
 		<div class="goods-info">
 			<p>{{itemData.title}}</p>
 			<span class="price">{{itemData.price}}</span>
@@ -24,6 +24,11 @@
 
       }
     },
+		computed:{
+			realImage(){
+				return this.itemData.image || this.itemData.show.img
+			}
+		},
     methods: {
 			imgLoad(){
 				this.$bus.$emit('imgLoad')

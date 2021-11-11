@@ -6,17 +6,17 @@
 <script>
   export default {
     name: "BackTop",
-    data() {
-      return {}
-    },
-    methods: {
-
-		}
   }
 
 </script>
 <style scoped>
+	.back-top{
+		position: fixed;
+		right: 3px;
+		bottom: 55px;
+	}
 	.back-top img{
 		width: 43px;
+		
 	}
 </style>

@@ -22,7 +22,7 @@ export default {
 		Swiper, SwiperItem
 	},
 	created() {
-		console.log(this.topImages);
+		// console.log(this.topImages);
 	},
 	methods:{}
 }

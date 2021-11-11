@@ -49,6 +49,9 @@ import HomeRecommend from './homeChild/HomeRecommend'
 import FeatureView from './homeChild/FeatureView'
 // 公共方法
 import {debounce} from 'common/utils'
+import {itemImageLoad} from 'common/mixin'
+// 公共常量
+import {BACK_POSITION} from 'common/const'
 
 export default {
 	name: "Home",
@@ -67,33 +70,28 @@ export default {
 		 tabOffsetTop:0,
 		 tabFixed:false,
 		 prevPosition:0,
-		 leavePosition:0
+		 leavePosition:0,
 	 }
 	},
+	mixins:[itemImageLoad],
 	created() {
 		this.getHomeMultiData();
 		this.getGoodsData('pop')
 		this.getGoodsData('new')
 		this.getGoodsData('sell')
-		console.log(this.$route);
-
 	},
 
 	mounted() {
-		// 页面img加载scroll组件需要refresh重载计算高度
-		const refresh = debounce(this.$refs.scroll.refresh,200)
-		this.$bus.$on('imgLoad',()=>{
-			refresh();
-		})
-		// 吸顶
 		
 	},
 	activated() {
 		this.$refs.scroll.scrollTo(0,this.leavePosition,0);
-		this.$refs.scroll.refresh()
+		this.$refs.scroll.refresh();
+		this.$bus.$on('imgLoad',this.eventFn);
 	},
 	deactivated() {
 		this.leavePosition = this.$refs.scroll.scroll.y;
+		this.$bus.$off('imgLoad',this.eventFn);
 	},
 	methods:{
 		// 事件处理
@@ -139,14 +137,13 @@ export default {
 		},
 		scrollPosition(position){
 			// 回顶部操作
-			this.isShowBackTop = (-position.y)>1000;
+			this.isShowBackTop = (-position.y)>BACK_POSITION;
 			// tabcontrol吸顶
 			this.tabFixed = (-position.y)>this.tabOffsetTop;
 			// 记录tabcontrol每一个tab的位置
 			this.goods[this.currentType].position = position.y;
 		},
 		loadMore(){
-			console.log('pullingUp');
 			this.getGoodsData(this.currentType)
 		},
 		

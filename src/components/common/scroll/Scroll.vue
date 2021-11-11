@@ -50,7 +50,7 @@
 			},
 			refresh(){
 				this.scroll&&this.scroll.refresh()
-				console.log('refresh');
+				// console.log('refresh');
 			}
 		}
   }
