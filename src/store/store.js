@@ -3,14 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const state = {
+	cardList:[]
+}
+import mutations from './mutations';
+import actions from './action';
 export const store = new Vuex.Store({
-  state: {
-    count: 0
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
+  state,
+  mutations,
+	actions
 })
 

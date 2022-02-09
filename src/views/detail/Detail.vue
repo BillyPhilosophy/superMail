@@ -135,8 +135,8 @@ export default {
 			goodsInfo.desc = this.goods.desc;
 			goodsInfo.price = this.goods.realPrice;
 			goodsInfo.iid = this.iid;
-			
 
+			this.$store.dispatch('addCard',goodsInfo)
 		},
 		hookTest(){
 			// console.log('hook-updated');
