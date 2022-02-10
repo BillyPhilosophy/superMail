@@ -8,9 +8,11 @@ const state = {
 }
 import mutations from './mutations';
 import actions from './action';
+import getters from './getters';
 export const store = new Vuex.Store({
   state,
   mutations,
-	actions
+	actions,
+	getters
 })
 
