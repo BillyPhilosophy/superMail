@@ -6,6 +6,7 @@ const actions = {
 			commit(ADD_COUNT,oldProduct);
 		}else{
 			payload.count = 1;
+			payload.checked = false;
 			commit(ADD_NEWGOODS,payload);
 		}
 	}

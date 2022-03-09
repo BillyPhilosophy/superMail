@@ -2,6 +2,7 @@
   <div class="card">
 		<nav-bar #center class="bgcolor">购物车({{cartLength}})</nav-bar>
 		<cart-list/>
+		<cart-bottom-bar/>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 
 import {mapGetters} from 'vuex'
 import NavBar from 'components/common/navbar/NavBar';
+import CartBottomBar from '@/views/shopcart/cartChild/CartBottomBar'; 
 import CartList from '@/views/shopcart/cartChild/CartList';
 export default {
   name: 'Shopcart',
@@ -19,7 +21,8 @@ export default {
   },
 	components:{
 		NavBar,
-		CartList
+		CartList,
+		CartBottomBar
 	},
   computed: {
 		...mapGetters(['cartLength'])

@@ -1,10 +1,7 @@
 <template>
 	<div>
 		<scroll class="cart-list" ref="scroll">
-			<!-- <div v-for="(item,index) in cartList">
-				{{item}}
-			</div> -->
-			<cart-list-item v-for="(item,index) in cartList" :key="index" :product="item"></cart-list-item>
+			<cart-list-item v-for="item in cartList" :key="item.iid" :item="item"></cart-list-item>
 		</scroll>
 	</div>
 </template>
@@ -34,7 +31,7 @@ export default {
 </script>
 <style  scoped>
 	.cart-list{
-		height: calc(100vh - 44px - 49px);
+		height: calc(100vh - 44px - 49px -40px);
 		overflow: hidden;
 	}
 </style>
